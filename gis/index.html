@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GiS</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&display=swap');
+            .top {
+                background: linear-gradient(to bottom, rgb(0, 255, 255), rgb(0, 50, 50));
+                width: 350px;
+                height: 200px;
+                border-radius: 15px;
+            }
+            .middle {
+                background: linear-gradient(to bottom, rgb(0, 127, 127), rgb(0, 60, 60));
+                width: 350px;
+                height: 20px;
+                border-radius: 5px;
+            }
+            .bottom {
+                background: linear-gradient(to bottom, rgb(0, 50, 50), rgb(0, 150, 150));
+                width: 350px;
+                height: 175px;
+                border-radius: 15px;
+            }
+            .middle .line1 {
+                background: rgb(0, 0, 0);
+                width: 2.5px;
+                height: 20px;
+                margin-left: 15px;
+            }
+            .middle .line2 {
+                background: rgb(0, 0, 0);
+                width: 2.5px;
+                height: 20px;
+                margin-left: 335px;
+                margin-top: -20px;
+            }
+            .joystick1 {
+                width: 75px;
+                height: 75px;
+                background-color: rgb(0, 200, 200);
+                border-radius: 15px;
+                margin-top: 10px;
+                margin-left: 10px;
+                position: absolute;
+            }
+            .movable {
+                width: 50px;
+                height: 50px;
+                background-color: rgb(0, 255, 255);
+                position: absolute;
+                cursor: grab;
+                border-radius: 15px;
+            }
+            button {
+                width: 25px;
+                height: 25px;
+                border-radius: 10px;
+                border: none;
+                cursor: pointer;
+                background-color: rgb(0, 50, 50);
+                color: rgb(0, 255, 255);
+                font-size: 10px;
+            }
+            .y {
+                margin-left: 285px;
+                margin-top: 10px;
+                position: absolute;
+            }
+            .x {
+                position: absolute;
+                margin-top: 35px;
+                margin-left: 260px;
+            }
+            .a {
+                position: absolute;
+                margin-top: 35px;
+                margin-left: 310px;
+            }
+            .b {
+                margin-left: 285px;
+                margin-top: 60px;
+                position: absolute;
+            }
+            .up {
+                position: absolute;
+                margin-top: 90px;
+                margin-left: 35px;
+            }
+            .left {
+                position: absolute;
+                margin-top: 115px;
+                margin-left: 10px;
+            }
+            .right {
+                position: absolute;
+                margin-top: 115px;
+                margin-left: 60px;
+            }
+            .down {
+                position: absolute;
+                margin-top: 140px;
+                margin-left: 35px;
+            }
+            .LogoIg {
+                position: absolute;
+                font-size: 50px;
+                margin-left: 135px;
+                font-family: "Source Sans 3", sans-serif;
+                color: rgb(0, 255, 255);
+            }
+            .joystick2 {
+                width: 75px;
+                height: 75px;
+                background-color: rgb(0, 200, 200);
+                border-radius: 15px;
+                margin-top: 92.5px;
+                margin-left: 260px;
+                position: absolute;
+            }
+            .screen {
+                position: absolute;
+                width: 260px;
+                height: 140px;
+                background-color: black;
+                margin-top: 27.5px;
+                margin-left: 40px;
+            }
+            .powerbtn {
+                position: absolute;
+                border-radius: 50px;
+                background-color: rgb(63.75, 0, 0);
+                margin-top: 5px;
+                margin-left: 5px;
+            }
+            .menustartuplogo {
+                position: absolute;
+                color: white;
+                font-size: 100px;
+                margin-top: 5px;
+                margin-left: 52.5px;
+                font-family: "Source Sans 3", sans-serif;
+                opacity: 0;
+                transition: opacity 0.5s linear;
+                display: none;
+            }
+            .menupage1 {
+                opacity: 0;
+                transition: opacity 0.25s linear;
+                display: none;
+                background-color: white;
+                width: 260px;
+                height: 140px;
+                font-family: "Source Sans 3", sans-serif;
+            }
+            .menupage1toptime {
+                position: absolute;
+                margin-top: 0px;
+                margin-left: 2.5px;
+            }
+            .menupage1topdate {
+                position: absolute;
+                margin-top: 0px;
+                margin-left: 32.5px;
+            }
+            .menupage1topline {
+                height: 2.5px;
+                width: 260px;
+                background-color: black;
+                margin-top: 15px;
+                position: absolute;
+            }
+            .menupage1appslinesline1 {
+                height: 2.5px;
+                width: 260px;
+                background-color: black;
+                margin-top: 76.25px;
+                position: absolute;
+            }
+            .menupage1appslinesline2 {
+                height: 125px;
+                width: 2.5px;
+                background-color: black;
+                margin-top: 15px;
+                margin-left: 128.75px;
+                position: absolute;
+            }
+            .menupage1appsapp1 {
+                width: 128.75px;
+                height: 58.75px;
+                background-color: orange;
+                margin-top: 17.5px;
+                position: absolute;
+                cursor: pointer;
+            }
+            .menupage1appsapp1title {
+                position: absolute;
+                margin-top: 0px;
+                margin-left: 2.5px;
+            }
+            .menupage1appsapp4 {
+                width: 128.75px;
+                height: 61px;
+                margin-top: 79px;
+                margin-left: 131px;
+                position: absolute;
+                cursor: pointer;
+            }
+            .menupage1appsapp4title {
+                position: absolute;
+                margin-top: 1px;
+                margin-left: 2.5px;
+            }
+            .customappstartupicon {
+                position: absolute;
+                color: white;
+                font-size: 20px;
+                margin-top: 55px;
+                margin-left: 50px;
+                font-family: "Source Sans 3", sans-serif;
+                opacity: 0;
+                transition: opacity 0.5s linear;
+                display: none;
+            }
+            .drawchatstartuplogo {
+                position: absolute;
+                color: white;
+                font-size: 35px;
+                margin-top: 42.5px;
+                margin-left: 52.5px;
+                font-family: "Source Sans 3", sans-serif;
+                opacity: 0;
+                transition: opacity 0.5s linear;
+                display: none;
+            }
+            .drawchat {
+                opacity: 0;
+                transition: opacity 0.25s linear;
+                display: none;
+                background-color: orange;
+                width: 260px;
+                height: 140px;
+                font-family: "Source Sans 3", sans-serif;
+            }
+            .drawchatpage2textinfo {
+                position: absolute;
+                margin-left: 122.5px;
+                margin-top: 24.5px;
+                font-size: 15px;
+                color: white;
+            }
+            .drawchatlogotext {
+                position: absolute;
+                margin-top: 0px;
+                margin-left: 3.5px;
+                color: white;
+            }
+            .drawchatlinesline1 {
+                position: absolute;
+                width: 260px;
+                height: 2.5px;
+                background-color: black;
+                margin-top: 20px;
+            }
+            .drawchatleftsection {
+                position: absolute;
+                height: 117.5px;
+                margin-top: 22.5px;
+                width: 80px;
+            }
+            .drawchatlinesline2 {
+                position: absolute;
+                width: 3px;
+                height: 117.5px;
+                background-color: black;
+                margin-left: 80px;
+                margin-top: 22.5px;
+            }
+            .drawchatleftsectionbutton1 {
+                position: absolute;
+                height: 23px;
+                margin-top: 0px;
+                width: 80px;
+                cursor: pointer;
+            }
+            .drawchatlinesline3 {
+                position: absolute;
+                width: 260px;
+                height: 3px;
+                background-color: black;
+                margin-left: 0px;
+                margin-top: 45.5px;
+            }
+            .drawchatleftsectionbutton1title {
+                position: absolute;
+                margin-top: 0px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatleftsectionbutton2 {
+                position: absolute;
+                height: 23px;
+                margin-top: 23px;
+                width: 80px;
+                cursor: pointer;
+            }
+            .drawchatleftsectionbutton2title {
+                position: absolute;
+                margin-top: 2.5px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatlinesline4 {
+                position: absolute;
+                width: 80px;
+                height: 3px;
+                background-color: black;
+                margin-left: 0px;
+                margin-top: 68px;
+            }
+            .drawchatlinesline5 {
+                position: absolute;
+                width: 180px;
+                height: 3px;
+                background-color: black;
+                margin-left: 80px;
+                margin-top: 68px;
+                display: none;
+            }
+            .drawchatlinesline6 {
+                position: absolute;
+                width: 180px;
+                height: 3.5px;
+                background-color: black;
+                margin-left: 80px;
+                margin-top: 90.5px;
+                display: none;
+            }
+            .drawchatlinesline7 {
+                position: absolute;
+                width: 180px;
+                height: 3.5px;
+                background-color: black;
+                margin-left: 80px;
+                margin-top: 113px;
+                display: none;
+            }
+            .drawchatlinesline8 {
+                position: absolute;
+                width: 180px;
+                height: 3px;
+                background-color: black;
+                margin-left: 80px;
+                margin-top: 68px;
+                display: none;
+            }
+            .drawchatpage1 {
+                display: block;
+            }
+            .drawchatpage2 {
+                display: none;
+            }
+            .drawchatpage1welcomemessage {
+                position: absolute;
+                margin-left: 95px;
+                margin-top: 24.5px;
+                font-size: 15px;
+                color: white;
+            }
+            .drawchatpage2menuserver1 {
+                position: absolute;
+                width: 177px;
+                margin-left: 83px;
+                margin-top: 48.5px;
+                height: 19.5px;
+                cursor: pointer;
+            }
+            .drawchatpage2menuserver1title {
+                margin-top: -1.5px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatpage2menuserver1users {
+                margin-top: -38.5px;
+                margin-left: 75px;
+                color: white;
+            }
+            .drawchatpage2menuserver2 {
+                position: absolute;
+                width: 177px;
+                margin-left: 83px;
+                margin-top: 71px;
+                height: 19.5px;
+                cursor: pointer;
+            }
+            .drawchatpage2menuserver2title {
+                margin-top: -1.5px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatpage2menuserver2users {
+                margin-top: -38.5px;
+                margin-left: 75px;
+                color: white;
+            }
+            .drawchatpage2menuserver3 {
+                position: absolute;
+                width: 177px;
+                margin-left: 83px;
+                margin-top: 93.5px;
+                height: 19.5px;
+                cursor: pointer;
+            }
+            .drawchatpage2menuserver3title {
+                margin-top: -1.5px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatpage2menuserver3users {
+                margin-top: -38.5px;
+                margin-left: 75px;
+                color: white;
+            }
+            .drawchatpage2menuserver4 {
+                position: absolute;
+                width: 177px;
+                margin-left: 83px;
+                margin-top: 116px;
+                height: 19.5px;
+                cursor: pointer;
+            }
+            .drawchatpage2menuserver4title {
+                margin-top: -1.5px;
+                margin-left: 2.5px;
+                color: white;
+            }
+            .drawchatpage2menuserver4users {
+                margin-top: -38.5px;
+                margin-left: 75px;
+                color: white;
+            }
+            .drawchatpage2menutextinfo {
+                position: absolute;
+                margin-left: 121px;
+                margin-top: 22.5px;
+                color: white;
+            }
+            .cid {
+                color: white;
+            }
+            .acustomapp {
+                display: none;
+                opacity: 0;
+            }
+      </style>
+    </head>
+    <body>
+        <div class="gis">
+            <div class="top">
+                <button class="powerbtn" id="powerbtn"></button>
+                <div class="screen">
+                    <div class="menu" id="menu">
+                        <div class="menustartup">
+                            <p class="menustartuplogo" id="menu#startup#logo">GiS</p>
+                        </div>
+                        <div class="menupage1" id="menu#page1">
+                            <div class="menupage1top">
+                                <h6 class="menupage1toptime" id="menu#page1#top#time">HH:MM</h6>
+                                <h6 class="menupage1topdate" id="menu#page1#top#date">MM/DD</h6>
+                                <div class="menupage1topline"></div>
+                            </div>
+                            <div class="menupage1apps">
+                                <div class="menupage1appslines">
+                                    <div class="menupage1appslinesline1"></div>
+                                    <div class="menupage1appslinesline2"></div>
+                                </div>
+                                <div class="menupage1appsapp1" id="menu#page1#apps#app1">
+                                    <h6 class="menupage1appsapp1title">DrawChat</h6>
+                                </div>
+                                <div class="menupage1appsapp2"></div>
+                                <div class="menupage1appsapp3"></div>
+                                <div class="menupage1appsapp4" id="menu#page1#apps#app4">
+                                    <h6 id="menu#page1#apps#app4#title" class="menupage1appsapp4title">Custom App/Game</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- More apps to make later ;) -->
+                    <div class="drawchatlol" id="drawchatlol">
+                        <div class="drawchatstartup">
+                            <p class="drawchatstartuplogo" id="drawchat#startup#logo">DrawChat</p>
+                        </div>
+                        <div class="drawchat" id="drawchat">
+                            <div class="drawchatlines">
+                                <div class="drawchatlinesline1"></div>
+                                <div class="drawchatlinesline2"></div>
+                                <div class="drawchatlinesline3"></div>
+                                <div class="drawchatlinesline4"></div>
+                                <div class="drawchatlinesline5" id="drawchat#lines#line5"></div>
+                                <div class="drawchatlinesline6" id="drawchat#lines#line6"></div>
+                                <div class="drawchatlinesline7" id="drawchat#lines#line7"></div>
+                                <div class="drawchatlinesline8" id="drawchat#lines#line8"></div>
+                            </div>
+                            <p class="drawchatlogotext">DrawChat</p>
+                            <div class="drawchatleftsection">
+                                <div class="drawchatleftsectionbutton1" id="drawchat#leftsection#button1">
+                                    <p class="drawchatleftsectionbutton1title">Menu</p>
+                                </div>
+                                <div class="drawchatleftsectionbutton2" id="drawchat#leftsection#button2">
+                                    <p class="drawchatleftsectionbutton2title">Local</p>
+                                </div>
+                            </div>
+                            <div class="drawchatrightsection">
+                                <div class="drawchatpage1" id="drawchat#page1">
+                                    <p class="drawchatpage1welcomemessage">Welcome to DrawChat!</p>
+                                </div><!-- For later ;) -->
+                                <div class="drawchatpage2" id="drawchat#page2">
+                                    <p class="drawchatpage2menutextinfo">Local Servers</p>
+                                    <div class="drawchatpage2menuserver1">
+                                        <p class="drawchatpage2menuserver1title">Server 1</p>
+                                        <p class="drawchatpage2menuserver1users">0/32</p>
+                                    </div>
+                                    <div class="drawchatpage2menuserver2">
+                                        <p class="drawchatpage2menuserver2title">Server 2</p>
+                                        <p class="drawchatpage2menuserver2users">0/32</p>
+                                    </div>
+                                    <div class="drawchatpage2menuserver3">
+                                        <p class="drawchatpage2menuserver3title">Server 3</p>
+                                        <p class="drawchatpage2menuserver3users">0/32</p>
+                                    </div>
+                                    <div class="drawchatpage2menuserver4">
+                                        <p class="drawchatpage2menuserver4title">Server 4</p>
+                                        <p class="drawchatpage2menuserver4users">0/32</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- drawchat!!! -->
+                    <div class="customapp" id="customapp">
+                        <div class="customappstartup">
+                            <p class="customappstartupicon" id="customappstartupicon">Custom App/Game</p>
+                        </div>
+                        <div class="acustomapp" id="acustomapp">
+                            <p class="cid">The Custom App System is currently in developement.</p>
+                            <p class="cid">It will come soon, but i dont feel like its gonna come too soon.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="line1"></div>
+                <div class="line2"></div>
+            </div>
+            <div class="bottom">
+                <div class="joystick1" id="joystick1">
+                    <div class="movable" id="movable1"></div>
+                </div>
+                <div class="letterbtns">
+                    <button id="y" class="y">Y</button>
+                    <button id="x" class="x">X</button>
+                    <button id="a" class="a">A</button>
+                    <button id="b" class="b">B</button>
+                </div>
+                <div class="dpad">
+                    <button id="up" class="up">↑</button>
+                    <button id="left" class="left">←</button>
+                    <button id="right" class="right">→</button>
+                    <button id="down" class="down">↓</button>
+                </div>
+                <p class="LogoIg">GiS</p>
+                <div class="joystick2" id="joystick2">
+                    <div class="movable" id="movable2"></div>
+                </div>
+            </div>
+        </div>
+        <p>You can also import your games/apps to the GiS!</p>
+        <p>For this, you need to import an .gisapp file.</p>
+        <input type="file" id="GameAppImporter">
+        <p id="sortaconsole"></p>
+        <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ...
+
+    function GEBY(id) {
+        return document.getElementById(id)
+    }
+
+    // Controls Code
+
+    const draggable1 = document.getElementById('movable1');
+    let isDragging1 = false;
+    let offsetX1, offsetY1;
+    let joystick1x, joystick1y
+    const joystick1 = document.getElementById('joystick1');
+    const initialX1 = (joystick1.clientWidth - draggable1.clientWidth) / 2;
+    const initialY1 = (joystick1.clientHeight - draggable1.clientHeight) / 2;
+    draggable1.style.transform = `translate(${initialX1}px, ${initialY1}px)`;
+    const draggable2 = document.getElementById('movable2');
+    let isDragging2 = false;
+    let offsetX2, offsetY2;
+    let joystick2x, joystick2y
+    const joystick2 = document.getElementById('joystick2');
+    const initialX2 = (joystick2.clientWidth - draggable2.clientWidth) / 2;
+    const initialY2 = (joystick2.clientHeight - draggable2.clientHeight) / 2;
+    draggable2.style.transform = `translate(${initialX2}px, ${initialY2}px)`;
+    const Controls = {
+        "JOYSTICK_LEFT_X": joystick1x,
+        "JOYSTICK_LEFT_Y": joystick1y,
+        "JOYSTICK_RIGHT_X": joystick2x,
+        "JOYSTICK_RIGHT_Y": joystick2y,
+        "Buttons": {
+            "Y": document.getElementById("y"),
+            "X": document.getElementById("x"),
+            "A": document.getElementById("a"),
+            "B": document.getElementById("b"),
+            "DPAD_UP": document.getElementById("up"),
+            "DPAD_LEFT": document.getElementById("left"),
+            "DPAD_RIGHT": document.getElementById("right"),
+            "DPAD_DOWN": document.getElementById("down"),
+            "POWER": document.getElementById("powerbtn")
+        }
+    };
+    draggable1.addEventListener('mousedown', (e) => {
+        isDragging1 = true;
+        const draggableRect = draggable1.getBoundingClientRect();
+        const joystickRect = joystick1.getBoundingClientRect();
+        offsetX1 = e.clientX - draggableRect.left;
+        offsetY1 = e.clientY - draggableRect.top;
+        draggable1.style.cursor = 'grabbing';
+    });
+    draggable2.addEventListener('mousedown', (e) => {
+        isDragging2 = true;
+        const draggableRect = draggable2.getBoundingClientRect();
+        const joystickRect = joystick2.getBoundingClientRect();
+        offsetX2 = e.clientX - draggableRect.left;
+        offsetY2 = e.clientY - draggableRect.top;
+        draggable2.style.cursor = 'grabbing';
+    });
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging1) {
+            const x = e.clientX - offsetX1;
+            const y = e.clientY - offsetY1;
+
+            const minX = joystick1.offsetLeft;
+            const minY = joystick1.offsetTop;
+            const maxX = joystick1.offsetLeft + joystick1.clientWidth - draggable1.clientWidth;
+            const maxY = joystick1.offsetTop + joystick1.clientHeight - draggable1.clientHeight;
+
+            const clampedX = Math.min(Math.max(minX, x), maxX) + -18;
+            const clampedY = Math.min(Math.max(minY, y), maxY) + -238;
+
+            if (clampedX == 0) {joystick1x = "left"}
+            else if (clampedX == 25) {joystick1x = "right"}
+            else {joystick1x = "middle"}
+            if (clampedY == 0) {joystick1y = "top"}
+            else if (clampedY == 25) {joystick1y = "bottom"}
+            else {joystick1y = "middle"}
+
+            draggable1.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
+        } else if (isDragging2) {
+            const x = e.clientX - offsetX2;
+            const y = e.clientY - offsetY2;
+
+            const minX = joystick2.offsetLeft;
+            const minY = joystick2.offsetTop;
+            const maxX = joystick2.offsetLeft + joystick2.clientWidth - draggable2.clientWidth;
+            const maxY = joystick2.offsetTop + joystick2.clientHeight - draggable2.clientHeight;
+
+            const clampedX = Math.min(Math.max(minX, x), maxX) - 268;
+            const clampedY = Math.min(Math.max(minY, y), maxY) - 321;
+
+            if (clampedX == 0) {joystick2x = "left"}
+            else if (clampedX == 25) {joystick2x = "right"}
+            else {joystick2x = "middle"}
+            if (clampedY == 0) {joystick2y = "top"}
+            else if (clampedY == 25) {joystick2y = "bottom"}
+            else {joystick2y = "middle"}
+
+            draggable2.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
+        }
+    });
+    document.addEventListener('mouseup', () => {
+        if (isDragging1) {
+            isDragging1 = false;
+            draggable1.style.cursor = 'grab';
+            draggable1.style.transform = `translate(${initialX1}px, ${initialY1}px)`;
+            joystick1x = "middle"
+            joystick1y = "middle"
+        } else if (isDragging2) {
+            isDragging2 = false;
+            draggable2.style.cursor = 'grab';
+            draggable2.style.transform = `translate(${initialX2}px, ${initialY2}px)`;
+            joystick2x = "middle"
+            joystick2y = "middle"
+        }
+    });
+
+    // UI Code
+    var alreadyStartedUp = false
+
+    Controls.Buttons.POWER.onclick = function() { // Menu
+        if (!alreadyStartedUp){
+            alreadyStartedUp = true
+            Controls.Buttons.POWER.style.backgroundColor = "rgb(255, 0, 0)";
+            GEBY("menu#startup#logo").style.display = "block";
+            setTimeout(function(){
+                Controls.Buttons.POWER.style.backgroundColor = "rgb(63.75, 0, 0)";
+                GEBY("menu#startup#logo").style.opacity = 1;
+                setTimeout(function(){
+                    GEBY("menu#startup#logo").style.opacity = 0;
+                    GEBY("menu#page1").style.display = "block";
+                    setTimeout(function(){
+                        GEBY("menu#startup#logo").style.display = "none";
+                        GEBY("menu#page1").style.opacity = 1;
+                        setInterval(() => { // Time & Date Code
+                            const date = new Date();
+                            var hours = date.getHours()
+                            var minutes = date.getMinutes()
+                            var months = date.getMonth() + 1
+                            var days = date.getDate()
+                            if (months <= 9) {
+                                months = "0" + months
+                            }
+                            if (days <= 9) {
+                                days = "0" + days
+                            }
+                            if (hours <= 9) {
+                                hours = "0" + hours
+                            }
+                            if (minutes <= 9) {
+                                minutes = "0" + minutes
+                            }
+                            GEBY("menu#page1#top#date").innerText = months + "/" + days
+                            GEBY("menu#page1#top#time").innerText = hours + ":" + minutes
+                        }, 1);
+                        GEBY('menu#page1#apps#app1').onclick = function(){StartDrawChat();};
+                    }, 2000);
+                }, 5000);
+            }, 2000);
+        };
+    };
+
+    // Place to code games and apps here
+
+    // DrawChat code here
+
+    function InitDrawChat() {
+        GEBY("drawchat#leftsection#button1").onclick = function() {
+            GEBY("drawchat#page1").style.display = "block";
+            GEBY("drawchat#page2").style.display = "none";
+            GEBY("drawchat#lines#line5").style.display = "none";
+            GEBY("drawchat#lines#line6").style.display = "none";
+            GEBY("drawchat#lines#line7").style.display = "none";
+            GEBY("drawchat#lines#line8").style.display = "none";
+        };
+        GEBY("drawchat#leftsection#button2").onclick = function() {
+            GEBY("drawchat#page2").style.display = "block";
+            GEBY("drawchat#page1").style.display = "none";
+            GEBY("drawchat#lines#line5").style.display = "block";
+            GEBY("drawchat#lines#line6").style.display = "block";
+            GEBY("drawchat#lines#line7").style.display = "block";
+            GEBY("drawchat#lines#line8").style.display = "block";
+        };
+    }
+
+    function StartDrawChat() {
+        GEBY("menu#page1").style.opacity = 0;
+        GEBY("drawchat#startup#logo").style.display = "block";
+        setTimeout(() => {
+            GEBY("menu#page1").style.display = "none";
+            GEBY("drawchat#startup#logo").style.opacity = 1;
+            setTimeout(() => {
+                GEBY("drawchat").style.display = "block";
+                GEBY("drawchat#startup#logo").style.opacity = 0;
+                setTimeout(() => {
+                    GEBY("drawchat#startup#logo").style.display = "none";
+                    GEBY("drawchat").style.opacity = 1;
+                    InitDrawChat()
+                }, 2000);
+            }, 5000);
+        }, 1000);
+    }
+
+    // End of DrawChat Code
+
+    // App Importer Code Here
+
+    const GameAppImporter = GEBY("GameAppImporter")
+
+    function hexToStr(hex) {
+        let str = '';
+        for (let i = 0; i < hex.length; i += 2) {
+            let charCode = parseInt(hex.substr(i, 2), 16);
+            str += String.fromCharCode(charCode);
+        }
+        return str;
+    }
+
+    function CustomApp(code) {
+        let linesArray = code.split("\n")
+        for (let i = 0; i < linesArray.length; i++) {
+            let line = linesArray[i];
+            if (line.startsWith("000000")) {
+                console.log(hexToStr(line.substring(6)))
+            }
+        }
+    }
+
+    function StartCustomApp(code) {
+        GEBY("menu#page1").style.opacity = 0;
+        GEBY("customappstartupicon").style.display = "block";
+        setTimeout(() => {
+            GEBY("menu#page1").style.display = "none";
+            GEBY("customappstartupicon").style.opacity = 1;
+            setTimeout(() => {
+                GEBY("acustomapp").style.display = "block";
+                GEBY("customappstartupicon").style.opacity = 0;
+                setTimeout(() => {
+                    GEBY("customappstartupicon").style.display = "none";
+                    GEBY("acustomapp").style.opacity = 1;
+                    CustomApp(code)
+                }, 2000);
+            }, 5000);
+        }, 1000);
+    }
+
+    GameAppImporter.onchange = () => {
+        let fr = new FileReader()
+        let gamecontent
+        fr.readAsText(GameAppImporter.files[0]);
+
+        fr.onload = () => {
+            const gamecontent = fr.result.toString()
+            let fileName = GameAppImporter.files[0].name.toString();
+            if (fileName.endsWith("gisapp")) {
+                const gamename = hexToStr(gamecontent.split("FF05FE")[0])
+                const gamemenuappcolor = "#" + gamecontent.split("FF05FE")[1]
+                const gamemenuapptitlecolor = "#" + gamecontent.split("FF05FE")[2]
+                const gamestartuptitle = hexToStr(gamecontent.split("FF05FE")[3])
+                const gamestartuptitlecolor = "#" + gamecontent.split("FF05FE")[4]
+                GEBY("customappstartupicon").innerText = gamestartuptitle
+                GEBY("customappstartupicon").style.color = gamestartuptitlecolor
+                GEBY("menu#page1#apps#app4#title").innerText = gamename
+                GEBY("menu#page1#apps#app4#title").style.color = gamemenuapptitlecolor
+                let gamemenuapp = GEBY("menu#page1#apps#app4")
+                gamemenuapp.style.backgroundColor = gamemenuappcolor;
+                GEBY("sortaconsole").innerText = "Successfully loaded " + gamename + "!"
+                code = gamecontent.substring(gamecontent.indexOf("\n") + 1)
+                GEBY("menu#page1#apps#app4").onclick = () => {StartCustomApp(code)}
+            } else {
+                GEBY("sortaconsole").innerText = "Error: File Type isn't a .gisapp file."
+            }
+        }
+    }
+});
+
+        </script>
+    </body>
+</html>
