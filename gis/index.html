@@ -146,6 +146,17 @@
                 transition: opacity 0.5s linear;
                 display: none;
             }
+            .menustartuplogo2 {
+                position: absolute;
+                color: white;
+                font-size: 60px;
+                margin-top: 27.5px;
+                margin-left: 52.5px;
+                font-family: "Source Sans 3", sans-serif;
+                opacity: 0;
+                transition: opacity 0.5s linear;
+                display: none;
+            }
             .menupage1 {
                 opacity: 0;
                 transition: opacity 0.25s linear;
@@ -447,9 +458,6 @@
                 margin-top: 22.5px;
                 color: white;
             }
-            .cid {
-                color: white;
-            }
             .acustomapp {
                 display: none;
                 opacity: 0;
@@ -464,6 +472,9 @@
                     <div class="menu" id="menu">
                         <div class="menustartup">
                             <p class="menustartuplogo" id="menu#startup#logo">GiS</p>
+                        </div>
+                        <div class="menustartup">
+                            <p class="menustartuplogo2" id="menu#startup#logo2">Menu</p>
                         </div>
                         <div class="menupage1" id="menu#page1">
                             <div class="menupage1top">
@@ -542,8 +553,6 @@
                             <p class="customappstartupicon" id="customappstartupicon">Custom App/Game</p>
                         </div>
                         <div class="acustomapp" id="acustomapp">
-                            <p class="cid">The Custom App System is currently in developement.</p>
-                            <p class="cid">It will come soon, but i dont feel like its gonna come too soon.</p>
                         </div>
                     </div>
                 </div>
@@ -798,12 +807,36 @@ document.addEventListener('DOMContentLoaded', function() {
         return str;
     }
 
+    function goToMenu() {
+        GEBY("acustomapp").style.opacity = 0
+        GEBY("menu#startup#logo2").style.display = "block";
+        setTimeout(function(){
+            GEBY("acustomapp").style.display = "none"
+            Controls.Buttons.POWER.style.backgroundColor = "rgb(63.75, 0, 0)";
+            GEBY("menu#startup#logo2").style.opacity = 1;
+            setTimeout(function(){
+                GEBY("menu#startup#logo2").style.opacity = 0;
+                GEBY("menu#page1").style.display = "block";
+                setTimeout(function(){
+                    GEBY("menu#startup#logo2").style.display = "none";
+                    GEBY("menu#page1").style.opacity = 1;
+                }, 2000);
+            }, 5000);
+        }, 2000);
+    }
+
     function CustomApp(code) {
         let linesArray = code.split("\n")
+        let customappdiv = GEBY("acustomapp")
         for (let i = 0; i < linesArray.length; i++) {
             let line = linesArray[i];
             if (line.startsWith("000000")) {
-                console.log(hexToStr(line.substring(6)))
+                let text = document.createElement("p")
+                text.textContent = hexToStr(line.substring(12))
+                text.style.color = "#" + line.substring(6, 12)
+                customappdiv.appendChild(text)
+            } else if (line == "000003") {
+                goToMenu()
             }
         }
     }
