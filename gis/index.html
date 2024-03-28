@@ -84,6 +84,12 @@
                 margin-top: 60px;
                 position: absolute;
             }
+            .gotomenubtn {
+                position: absolute;
+                margin-top: 135px;
+                margin-left: 150px;
+                width: 47.5px;
+            }
             .up {
                 position: absolute;
                 margin-top: 90px;
@@ -577,6 +583,7 @@
                     <button id="right" class="right">→</button>
                     <button id="down" class="down">↓</button>
                 </div>
+                <button id="gotomenubtn" class="gotomenubtn">Menu</button>
                 <p class="LogoIg">GiS</p>
                 <div class="joystick2" id="joystick2">
                     <div class="movable" id="movable2"></div>
@@ -598,6 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Controls Code
 
+    let cgttm = false;
     const draggable1 = document.getElementById('movable1');
     let isDragging1 = false;
     let offsetX1, offsetY1;
@@ -772,6 +780,7 @@ document.addEventListener('DOMContentLoaded', function() {
             GEBY("drawchat#lines#line7").style.display = "block";
             GEBY("drawchat#lines#line8").style.display = "block";
         };
+        cgttm = true;
     }
 
     function StartDrawChat() {
@@ -798,6 +807,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const GameAppImporter = GEBY("GameAppImporter")
 
+    let memory = {
+        adresses: [],
+        datas: []
+    }
+
     function hexToStr(hex) {
         let str = '';
         for (let i = 0; i < hex.length; i += 2) {
@@ -807,10 +821,30 @@ document.addEventListener('DOMContentLoaded', function() {
         return str;
     }
 
+    function hexToInt(hexString) {
+        return parseInt(hexString, 16);
+    }
+
+    function displayErrorMessage(message) {
+        customappdiv.innerHTML = ""; // Clear the div
+        let errors = [
+            document.createElement("p"),
+            document.createElement("p")
+        ];
+        errors[0].style.color = "#FF0000";
+        errors[0].textContent = "Error!";
+        errors[1].style.color = "#FF0000";
+        errors[1].textContent = message;
+        customappdiv.appendChild(errors[0]);
+        customappdiv.appendChild(errors[1]);
+    }
+
     function goToMenu() {
         GEBY("acustomapp").style.opacity = 0
+        GEBY("drawchatlol").style.opacity = 0
         GEBY("menu#startup#logo2").style.display = "block";
         setTimeout(function(){
+            GEBY("drawchatlol").style.display = "none"
             GEBY("acustomapp").style.display = "none"
             Controls.Buttons.POWER.style.backgroundColor = "rgb(63.75, 0, 0)";
             GEBY("menu#startup#logo2").style.opacity = 1;
@@ -820,26 +854,51 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function(){
                     GEBY("menu#startup#logo2").style.display = "none";
                     GEBY("menu#page1").style.opacity = 1;
+                    cgttm = false;
                 }, 2000);
             }, 5000);
         }, 2000);
     }
 
+    GEBY("gotomenubtn").onclick = function(){goToMenu()}
+
     function CustomApp(code) {
-        let linesArray = code.split("\n")
-        let customappdiv = GEBY("acustomapp")
+        let linesArray = code.split("\n");
+        let customappdiv = GEBY("acustomapp"); // Assuming GEBY is a custom function to get elements by ID
         for (let i = 0; i < linesArray.length; i++) {
             let line = linesArray[i];
             if (line.startsWith("000000")) {
-                let text = document.createElement("p")
-                text.textContent = hexToStr(line.substring(12))
-                text.style.color = "#" + line.substring(6, 12)
-                customappdiv.appendChild(text)
-            } else if (line == "000002") {
-                goToMenu()
+                let text = document.createElement("p");
+                let type = line.substring(6, 8);
+                text.style.color = "#" + line.substring(8, 14);
+                let positionx = hexToInt(line.substring(14, 18)) / 100;
+                let positiony = hexToInt(line.substring(18, 22)) / 100;
+                if (type === "00") {
+                    text.textContent = hexToStr(line.substring(22));
+                } else if (type === "01") {
+                    if (memory.adresses.includes(line.substring(22))) {
+                        text.textContent = hexToStr(memory.datas[memory.adresses.indexOf(line.substring(22))])
+                    } else {
+                        displayErrorMessage("Adress " + line.substring(22) + " doesn't have any data")
+                    }
+                }
+                text.style.position = "absolute";
+                text.style.marginTop = positiony;
+                text.style.marginLeft = positionx;
+                customappdiv.appendChild(text);
+            } else if (line.startsWith("000001")) {
+                if (line.substring(6, 14) in memory.adresses) {
+                    memory.datas[memory.adresses.indexOf(line.substring(6, 14))] = line.substring(14);
+                } else {
+                    memory.adresses.push(line.substring(6, 14));
+                    memory.datas.push(line.substring(14));
+                }
+            } else if (line === "000002") {
+                goToMenu();
             }
         }
     }
+
 
     function StartCustomApp(code) {
         GEBY("menu#page1").style.opacity = 0;
@@ -853,7 +912,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     GEBY("customappstartupicon").style.display = "none";
                     GEBY("acustomapp").style.opacity = 1;
-                    CustomApp(code)
+                    cgttm = true;
+                    CustomApp(code);
                 }, 2000);
             }, 5000);
         }, 1000);
