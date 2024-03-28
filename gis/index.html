@@ -871,8 +871,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 let text = document.createElement("p");
                 let type = line.substring(6, 8);
                 text.style.color = "#" + line.substring(8, 14);
-                let positionx = hexToInt(line.substring(14, 18)) / 100;
-                let positiony = hexToInt(line.substring(18, 22)) / 100;
+                let positionx = hexToInt(line.substring(14, 18));
+                let positiony = hexToInt(line.substring(18, 22));
                 if (type === "00") {
                     text.textContent = hexToStr(line.substring(22));
                 } else if (type === "01") {

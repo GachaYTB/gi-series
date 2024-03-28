@@ -1,4 +1,5 @@
 import gislib
-gisapp = gislib.GiS("test", (0, 127, 255), (255, 255, 255), "test!!!", (255, 0, 0))
-gisapp.print("hehehe", 0, 0, (255, 255, 255))
-gisapp.export("./exportedGisApp.gisapp")
+app = gislib.GiS('Test App', (23, 35, 233), (255, 255, 255), 'Test GiS Libary', (32, 122, 79))
+app.print('Hello World!', 10, 10, (255, 255, 255))
+app.print('Hello World But Colorful!', 10, 35, (42, 122, 0))
+app.export('./testapp.gisapp')
