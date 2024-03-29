@@ -883,8 +883,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 text.style.position = "absolute";
-                text.style.marginTop = positiony;
-                text.style.marginLeft = positionx;
+                text.style.marginTop = positiony + 'px';
+                text.style.marginLeft = positionx + 'px';
                 customappdiv.appendChild(text);
             } else if (line.startsWith("000001")) {
                 if (line.substring(6, 14) in memory.adresses) {
